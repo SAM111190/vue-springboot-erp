@@ -1,0 +1,18 @@
+
+server:
+  port: 9092
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url:  jdbc:mysql://localhost:3306/erp?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    username: root
+    password: jhjywsy123
+    hikari:
+      max-lifetime: 120000
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+mybatis:
+  type-aliases-package: com.example.core.**.model
+  mapper-locations:  classpath*:mapper/*.xml
