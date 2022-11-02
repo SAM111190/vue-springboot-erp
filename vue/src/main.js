@@ -1,12 +1,18 @@
-import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import store from './store'
-import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css'
-import 'element-plus/theme-chalk/index.css';
-import zhCn from 'element-plus/es/locale/lang/zh-cn';
-import axios from 'axios';
-import VueAxios from 'vue-axios'
-import './assets/gloable.css'
-createApp(App).use(store).use(router).use(VueAxios,axios).use(ElementPlus,{locale: zhCn, size:'small'}).mount('#app')
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import'./assets/global.css'
+import request from "@/utils/request";
+
+Vue.config.productionTip = false
+
+Vue.use(ElementUI,{size:"mini"});
+
+Vue.prototype.request = request
+
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
