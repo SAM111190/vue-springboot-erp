@@ -1,14 +1,19 @@
 <template>
     <div class="header">
+      <span style="float: left">
+        <img src="@/assets/logo1.png" style="width: 146px;height: 61px">
+      </span>
       <div class="operation">
-        <span style="float: left"><i class="el-icon-s-shop" style="margin-right: 5px"/>欢迎您</span>
         <ul>
           <li>
-            <a style="margin-right:10px ">您好，请登录</a>
-            <a style="color: #f92b2b">免费注册</a>
+            <a><i class="el-icon-s-goods" style="margin-right: 5px"></i>我的购物单</a>
           </li>
           <li class="spacer" >|</li>
-          <li>我的购物车</li>
+          <li>
+            <a><i class="el-icon-star-on" style="margin-right: 5px"></i>我的收藏</a>
+          </li>
+          <li class="spacer" >|</li>
+          <a><i class="el-icon-user-solid" style="margin-right: 5px"></i>我的空间</a>
         </ul>
       </div>
     </div>
@@ -28,16 +33,16 @@ export default {
 
 <style scoped>
   .header {
-    font:12px Microsoft YaHei;
+    font:14px Microsoft YaHei;
     font-weight: bold;
-    color: #5d5d5d;
+    color: #ffffff;
     padding:0 100px 0 100px;
-    background-color:#e3e4e5;
     border-bottom: 1px solid #ccc;
-    line-height: 30px;
+    background-color: #e60012;
+    line-height: 52px;
   }
   .operation {
-    height: 30px;
+    height: 52px;
     text-align: right;
   }
   .operation ul{
