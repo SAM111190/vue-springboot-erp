@@ -31,16 +31,19 @@
       </div>
       <div class="goods">
           <nintendo v-if="activeIndex === '1'"></nintendo>
+          <sony v-if="activeIndex === '2'"></sony>
       </div>
     </div>
 </template>
 
 <script>
 import nintendo from "@/views/frontview/nintendo";
+import sony from "@/views/frontview/sony";
 export default {
   name: "home",
   components:{
     nintendo,
+    sony,
   },
   data() {
     return {
@@ -62,7 +65,7 @@ export default {
 
 <style scoped>
   .main {
-    /*background: url("https://img20.360buyimg.com/babel/jfs/t1/207821/19/27711/462425/635fa26fEc786b736/d737fbc33fdfcd67.png.webp") no-repeat center 0;*/
+    margin-top: 20px;
   }
   .nav {
     width: 1400px;

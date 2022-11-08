@@ -1,50 +1,66 @@
 <template>
   <div>
     <el-row :gutter="0">
-      <el-col :span="4">
+      <el-col :span="4" v-for="item in goods" :key="item.id" v-if="item.type === 1">
+        <router-link :to="{path:'/goods_details',query:{index: item.id}}">
         <div class="card">
               <div class="img">
-                <img width="216" height="121" src="https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.2395833730697632/c_scale,w_300/ncom/en_US/games/switch/p/persona-5-royal-switch/hero">
+                <img width="216" height="121" :src="item.imgUrl">
               </div>
-                <div class="title">Persona 5 Royal—Available now</div>
+                <div class="title">{{item.name}}</div>
         </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="card">
-          <div class="img">
-            <img width="216" height="121" src="https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.2395833730697632/c_scale,w_300/ncom/en_US/games/switch/s/splatoon-3-switch/hero">
-          </div>
-          <div class="title">Splatoon 3—Available now</div>
-        </div>
-      </el-col>
-      <el-col :span="4">
-        <div class="card">
-          <div class="img">
-            <img width="216" height="121" src="https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.2395833730697632/c_scale,w_300/ncom/en_US/games/switch/b/bayonetta-3-switch/hero">
-          </div>
-          <div class="title">Bayonetta 3—Available now</div>
-        </div>
+        </router-link>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import request from "@/utils/request";
 export default {
-  name: "nintendo"
+  name: "nintendo",
+  data() {
+    return {
+      goods:[],
+    }
+  },
+  created() {
+    this.load();
+  },
+  methods: {
+    load() //显示后台数据
+    {
+      request.get("/goods",{
+      }).then(res=>{
+        this.goods = res.data
+      })
+    }
+  }
 }
 </script>
 
 <style scoped>
   .card {
-    height: 220px;
+    height: 200px;
     width: 216px;
     box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.08);
     margin-bottom:15px;
   }
+  .card:hover {
+    box-shadow: 0 16px 32px 0 rgba(48, 55, 66, 0.3);/* 鼠标悬浮时盒子出现的阴影 */
+    transform: translate(0, -5px);/* 鼠标悬浮时盒子上移10px */
+    cursor: pointer;
+  }
+  .title:hover{
+    color:#e60012;
+  }
   .title {
+    color: #484848;
     padding: 10px 25px;
-    font-weight: 500;
+    font-weight: 520;
     font-size: 1rem;
+  }
+  a {
+    text-decoration: none;
   }
 </style>

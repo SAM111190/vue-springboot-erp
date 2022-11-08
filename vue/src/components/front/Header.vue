@@ -37,7 +37,6 @@ export default {
     font-weight: bold;
     color: #ffffff;
     padding:0 100px 0 100px;
-    border-bottom: 1px solid #ccc;
     background-color: #e60012;
     line-height: 52px;
   }

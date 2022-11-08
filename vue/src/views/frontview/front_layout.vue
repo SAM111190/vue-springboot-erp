@@ -2,7 +2,7 @@
   <div>
     <el-container>
 <!--    导航栏-->
-    <el-header height="30" style="padding: 0">
+    <el-header style="padding: 0;height: 52px">
       <Header></Header>
     </el-header>
 <!--主体-->

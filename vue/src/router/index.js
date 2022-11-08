@@ -37,7 +37,12 @@ const routes = [
         path: '/home',
         name:'front_home',
         component:() =>import('../views/frontview/Home'),
-      }
+      },
+      {
+        path: '/goods_details',
+        name:'goods_details',
+        component:() =>import('../views/frontview/goods_details'),
+      },
     ]
   },
 ]
