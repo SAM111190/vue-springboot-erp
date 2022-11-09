@@ -2,13 +2,19 @@ package com.example.erp.controller;
 
 
 import com.example.erp.common.Result;
-import com.example.erp.entity.Orders;
+import com.example.erp.entity.Order;
 import com.example.erp.mapper.GoodsMapper;
+/**import com.example.erp.entity.Orders;
 import com.example.erp.mapper.OrdersMapper;
-import com.example.erp.service.IOrdersService;
+import com.example.erp.service.IOrdersService;**/
+import com.example.erp.mapper.OrderMapper;
+import com.example.erp.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.example.erp.service.IGoodsService;
@@ -26,16 +32,22 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("//goods")
-        public class GoodsController {
+public class GoodsController {
 
     @Resource
     private IGoodsService goodsService;
     @Resource
     private GoodsMapper goodsMapper;
-    @Resource
+    /**@Resource
     private IOrdersService orderService;
     @Resource
-    private OrdersMapper orderMapper;
+    private OrdersMapper orderMapper;**/
+
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderMapper orderMapper;
+
     @PostMapping
     public Result save(@RequestBody Goods goods) {
         goodsService.saveOrUpdate(goods);
@@ -128,7 +140,7 @@ import org.springframework.web.bind.annotation.RestController;
 
     }
     //关联查询
-    @GetMapping("/correlation/{id}")
+    /**@GetMapping("/correlation/{id}")
     public List<Goods> correlation(@PathVariable int id) {
         List<Orders> allorderList = orderService.list();
         List<Goods> allgoodsList = goodsService.list();
@@ -161,6 +173,33 @@ import org.springframework.web.bind.annotation.RestController;
             }
         }
         return resultList;
+    }**/
+
+    @GetMapping("/correlation/{id}")
+    public List<Goods> correlation(@PathVariable Integer id) {
+        Integer thisOrderNum = orderMapper.findNumByID(id);
+        Integer allOrderNum = orderMapper.findAllOrderNum();
+        Float thisSupport = (float) thisOrderNum / (float) allOrderNum;
+
+        List<Goods> otherGoods = goodsMapper.findOtherGoods(id);
+        List<Goods> result = new LinkedList<>();
+
+        Iterator<Goods> iterator = otherGoods.iterator();
+        while (iterator.hasNext()) {
+            Goods thisGood = iterator.next();
+            Integer GoodOrderNum = orderMapper.findNumByID(thisGood.getId());
+            Float twoGoodSupport = (float) orderMapper.findNumByTwoId(id, thisGood.getId()) / (float) allOrderNum;
+            //Float GoodSupport = (float) GoodOrderNum / (float) allOrderNum;
+            //Float interest = twoGoodSupport / (thisSupport * GoodSupport);
+
+            Float certificate = twoGoodSupport / thisSupport;
+
+            if (certificate > 0.5) {
+                result.add(thisGood);
+            }
+        }
+
+        return result;
     }
 
 }

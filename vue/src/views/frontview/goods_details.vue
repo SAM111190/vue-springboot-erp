@@ -68,13 +68,15 @@
       <div class="type_2">
         <p class="crm_title">推荐一起购买</p>
         <el-row :gutter="0">
-          <el-col :span="6">
-            <div class="card">
-              <div class="crm_img">
-                <img width="260" height="146" src="https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.2395833730697632/c_scale,w_300/ncom/en_US/games/switch/p/persona-5-royal-switch/hero">
+          <el-col :span="6" v-for="item in correlationgoods" :key="item.id">
+            <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
+              <div class="card">
+                <div class="crm_img">
+                  <img width="260" height="146" :src="item.imgUrl">
+                </div>
+                <div class="title">{{item.name}}</div>
               </div>
-              <div class="title">女神异闻录5皇家版</div>
-            </div>
+            </router-link>
           </el-col>
         </el-row>
       </div>
@@ -91,6 +93,7 @@ export default {
       color:'background-color:',//背景颜色
       goods:[],
       adjgoods:[],
+      correlationgoods:[],
     }
   },
   created() {
@@ -115,6 +118,10 @@ export default {
       request.get("/goods/adjacent/"+this.id,{
       }).then(res=>{
         this.adjgoods = res
+      })
+      request.get("/goods/correlation/"+this.id,{
+      }).then(res=>{
+        this.correlationgoods = res
       })
     },
     flushCom:function(){
