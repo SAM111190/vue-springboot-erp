@@ -2,13 +2,11 @@ package com.example.erp.controller;
 
 
 import com.example.erp.common.Result;
-import com.example.erp.entity.Order;
 import com.example.erp.mapper.GoodsMapper;
 /**import com.example.erp.entity.Orders;
 import com.example.erp.mapper.OrdersMapper;
 import com.example.erp.service.IOrdersService;**/
 import com.example.erp.mapper.OrderMapper;
-import com.example.erp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
@@ -43,8 +41,6 @@ public class GoodsController {
     @Resource
     private OrdersMapper orderMapper;**/
 
-    @Autowired
-    private OrderService orderService;
     @Autowired
     private OrderMapper orderMapper;
 
