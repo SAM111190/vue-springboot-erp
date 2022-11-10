@@ -1,7 +1,7 @@
 <template>
     <div class="header">
       <span style="float: left">
-        <img src="@/assets/logo1.png" style="width: 146px;height: 61px">
+        <img @click="$router.push('/home')" src="@/assets/logo1.png" style="width: 146px;height: 61px;cursor: pointer">
       </span>
       <div class="operation">
         <ul>
@@ -13,7 +13,7 @@
             <a><i class="el-icon-star-on" style="margin-right: 5px"></i>我的收藏</a>
           </li>
           <li class="spacer" >|</li>
-          <a><i class="el-icon-user-solid" style="margin-right: 5px"></i>我的空间</a>
+          <a @click="$router.push('/manage')" style="cursor: pointer"><i class="el-icon-user-solid" style="margin-right: 5px"></i>我的空间</a>
         </ul>
       </div>
     </div>

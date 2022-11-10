@@ -9,7 +9,7 @@
       router
   >
     <div class="logo">
-      <img src="@/assets/logo1.png" alt="" style="width: 30px;position: relative;top: 8px;">
+      <img src="@/assets/logo1.png" alt="" style="width: 80px;position: relative;top: 14px;">
       <b style="color: white;margin-left: 10px" v-show="logoTextShow">后台系统</b>
     </div>
     <el-menu-item index="/">
@@ -23,8 +23,7 @@
       </template>
       <el-menu-item-group>
         <template slot="title">系统功能</template>
-        <el-menu-item index="/mrp"><i class="el-icon-user-solid"></i>用户管理</el-menu-item>
-        <el-menu-item index="/debts"><i class="el-icon-s-order"></i> 商品管理</el-menu-item>
+        <el-menu-item index="/goods"><i class="el-icon-s-order"></i> 商品管理</el-menu-item>
       </el-menu-item-group>
     </el-submenu>
   </el-menu>

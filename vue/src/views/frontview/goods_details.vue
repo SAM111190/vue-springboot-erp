@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="background" :style="color">
+    <section id="background" :style="color">
       <div class="show_goods">
         <el-page-header style="padding-left: 50px;padding-top: 30px;font-weight: bold;margin-bottom: 20px;color: #484848;" @back="goBack" :content="goods.name">
         </el-page-header>
@@ -53,7 +53,7 @@
       <div class="type_1">
         <p class="crm_title">猜你喜欢</p>
         <el-row :gutter="0">
-          <el-col :span="6" v-for="item in adjgoods" :key="item.id">
+          <el-col :span="6" v-for="item in adjgoods.slice(0,4)" :key="item.id">
             <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
             <div class="card">
               <div class="crm_img">
@@ -68,13 +68,15 @@
       <div class="type_2">
         <p class="crm_title">推荐一起购买</p>
         <el-row :gutter="0">
-          <el-col :span="6">
-            <div class="card">
-              <div class="crm_img">
-                <img width="260" height="146" src="https://assets.nintendo.com/image/upload/ar_16:9,b_auto:border,c_lpad/b_white/f_auto/q_auto/dpr_1.2395833730697632/c_scale,w_300/ncom/en_US/games/switch/p/persona-5-royal-switch/hero">
+          <el-col :span="6" v-for="item in correlationgoods.slice(0,4)" :key="item.id">
+            <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
+              <div class="card">
+                <div class="crm_img">
+                  <img width="260" height="146" :src="item.imgUrl">
+                </div>
+                <div class="title">{{item.name}}</div>
               </div>
-              <div class="title">女神异闻录5皇家版</div>
-            </div>
+            </router-link>
           </el-col>
         </el-row>
       </div>
@@ -91,11 +93,12 @@ export default {
       color:'background-color:',//背景颜色
       goods:[],
       adjgoods:[],
+      correlationgoods:[],
     }
   },
   created() {
-    this.load(),
-        this.search()
+      this.load(),
+      this.search()
   },
   methods:{
     goBack(){
@@ -116,11 +119,15 @@ export default {
       }).then(res=>{
         this.adjgoods = res
       })
+      request.get("/goods/correlation/"+this.id,{
+      }).then(res=>{
+        this.correlationgoods = res
+      })
     },
     flushCom:function(){
-
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
       this.$router.go(0);
-
     }
   }
 }
@@ -130,7 +137,7 @@ export default {
   .clear_float {
     clear: both;
   }
-  .background {
+  #background {
     height: 640px;
   }
   .show_goods {

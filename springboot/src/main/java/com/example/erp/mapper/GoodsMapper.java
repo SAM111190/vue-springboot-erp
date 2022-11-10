@@ -3,6 +3,7 @@ package com.example.erp.mapper;
 import com.example.erp.entity.Goods;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -16,5 +17,15 @@ import java.util.List;
  */
 @Mapper
 public interface GoodsMapper extends BaseMapper<Goods> {
+
     int querySumSold();
+
+    List<Goods> hotsold();
+
+    List<Goods> selectPage(Integer pageNum, Integer pageSize);
+
+    Integer selectTotal();
+
+    @Select("select * from goods where id != #{id}")
+    List<Goods> findOtherGoods(Integer id);
 }

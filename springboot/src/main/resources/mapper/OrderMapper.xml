@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.erp.mapper.OrderMapper">
+    <select id="findNumByTwoId" resultType="Integer">
+        select count(DISTINCT user_id) from `order` where user_id in
+      (
+          Select distinct user_id from `order` x
+          where exists(
+                  select * from `order`
+                  where game_id = #{id1} and user_id = x.user_id)
+            and exists(
+                  select * from `order`
+                  where game_id = #{id2} and user_id = x.user_id)
+      )
+    </select>
+</mapper>
