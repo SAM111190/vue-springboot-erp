@@ -3,17 +3,11 @@ package com.example.erp.controller;
 
 import com.example.erp.common.Result;
 import com.example.erp.mapper.GoodsMapper;
-/**import com.example.erp.entity.Orders;
-import com.example.erp.mapper.OrdersMapper;
-import com.example.erp.service.IOrdersService;**/
 import com.example.erp.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import com.example.erp.service.IGoodsService;
 import com.example.erp.entity.Goods;
@@ -30,16 +24,12 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("//goods")
-public class GoodsController {
+        public class GoodsController {
 
     @Resource
     private IGoodsService goodsService;
     @Resource
     private GoodsMapper goodsMapper;
-    /**@Resource
-    private IOrdersService orderService;
-    @Resource
-    private OrdersMapper orderMapper;**/
 
     @Autowired
     private OrderMapper orderMapper;
@@ -81,6 +71,20 @@ public class GoodsController {
     @GetMapping("/getone/{id}")
     public Goods getone(@PathVariable int id) {
         return goodsService.getById(id);
+    }
+
+    //分页查询
+    // 接口路径： /user/page?pageNum=1&pageSize=10
+    // @RequestParam接受
+    @GetMapping("/page")
+    public Map<String, Object> findPage(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        pageNum = (pageNum - 1) * pageSize;
+        List<Goods> data = goodsMapper.selectPage(pageNum, pageSize);
+        Integer total = goodsMapper.selectTotal();
+        Map<String,Object> res = new HashMap<>();
+        res.put("data",data);
+        res.put("total",total);
+        return res;
     }
 
     //相邻算法
@@ -135,42 +139,14 @@ public class GoodsController {
         return resultList;
 
     }
-    //关联查询
-    /**@GetMapping("/correlation/{id}")
-    public List<Goods> correlation(@PathVariable int id) {
-        List<Orders> allorderList = orderService.list();
-        List<Goods> allgoodsList = goodsService.list();
-        List<Orders> ajwList = orderMapper.queryOneOften(id);
-        List<Goods> resultList = new ArrayList<>();
-        List<Orders> tList;
-        float ajwSupport = (float) ajwList.size() / allorderList.size();
-        if (ajwSupport > 0.2) {
-            int i;
-            for (i = 0; i < allgoodsList.size(); i++) {
-                if (id != i + 1) {
-                    List<Orders> tOrder = orderMapper.queryOneOften(i + 1);
-                    if ((float) tOrder.size() / allorderList.size() > 0.2) {
-                        tList = orderMapper.query(id, i + 1);
-                        float tSupport = (float) tList.size() / allorderList.size();
-                        if (tSupport / ajwSupport > 0.6) {
-                            resultList.add(goodsService.getById(i + 1));
-                        }
-                    }
-                }
-            }
-        }
-        if (resultList.size() == 0) {
-            int i;
-            int allgoods = goodsMapper.querySumSold();
-            for (i = 0; i < allgoodsList.size(); i++) {
-                if ((float) goodsService.getById(i + 1).getSold() / allgoods > 0.15) {
-                    resultList.add(goodsService.getById(i + 1));
-                }
-            }
-        }
-        return resultList;
-    }**/
 
+    //热销商品
+    @GetMapping("/hot")
+    public List<Goods> hotsold() {
+        return goodsMapper.hotsold();
+    }
+
+    //关联查询
     @GetMapping("/correlation/{id}")
     public List<Goods> correlation(@PathVariable Integer id) {
         Integer thisOrderNum = orderMapper.findNumByID(id);
@@ -183,7 +159,7 @@ public class GoodsController {
         Iterator<Goods> iterator = otherGoods.iterator();
         while (iterator.hasNext()) {
             Goods thisGood = iterator.next();
-            Integer GoodOrderNum = orderMapper.findNumByID(thisGood.getId());
+            //Integer GoodOrderNum = orderMapper.findNumByID(thisGood.getId());
             Float twoGoodSupport = (float) orderMapper.findNumByTwoId(id, thisGood.getId()) / (float) allOrderNum;
             //Float GoodSupport = (float) GoodOrderNum / (float) allOrderNum;
             //Float interest = twoGoodSupport / (thisSupport * GoodSupport);
@@ -197,6 +173,42 @@ public class GoodsController {
 
         return result;
     }
+
+//    //关联查询
+//    @GetMapping("/correlation/{id}")
+//    public List<Goods> correlation(@PathVariable int id) {
+//        List<Orders> allorderList = orderService.list();
+//        List<Goods> allgoodsList = goodsService.list();
+//        List<Orders> ajwList = orderMapper.queryOneOften(id);
+//        List<Goods> resultList = new ArrayList<>();
+//        List<Orders> tList;
+//        float ajwSupport = (float) ajwList.size() / allorderList.size();
+//        if (ajwSupport > 0.2) {
+//            int i;
+//            for (i = 0; i < allgoodsList.size(); i++) {
+//                if (id != i + 1) {
+//                    List<Orders> tOrder = orderMapper.queryOneOften(i + 1);
+//                    if ((float) tOrder.size() / allorderList.size() > 0.2) {
+//                        tList = orderMapper.query(id, i + 1);
+//                        float tSupport = (float) tList.size() / allorderList.size();
+//                        if (tSupport / ajwSupport > 0.6) {
+//                            resultList.add(goodsService.getById(i + 1));
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if (resultList.size() == 0) {
+//            int i;
+//            int allgoods = goodsMapper.querySumSold();
+//            for (i = 0; i < allgoodsList.size(); i++) {
+//                if ((float) goodsService.getById(i + 1).getSold() / allgoods > 0.15) {
+//                    resultList.add(goodsService.getById(i + 1));
+//                }
+//            }
+//        }
+//        return resultList;
+//    }
 
 }
 

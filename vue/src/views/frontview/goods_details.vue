@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="background" :style="color">
+    <section id="background" :style="color">
       <div class="show_goods">
         <el-page-header style="padding-left: 50px;padding-top: 30px;font-weight: bold;margin-bottom: 20px;color: #484848;" @back="goBack" :content="goods.name">
         </el-page-header>
@@ -53,7 +53,7 @@
       <div class="type_1">
         <p class="crm_title">猜你喜欢</p>
         <el-row :gutter="0">
-          <el-col :span="6" v-for="item in adjgoods" :key="item.id">
+          <el-col :span="6" v-for="item in adjgoods.slice(0,4)" :key="item.id">
             <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
             <div class="card">
               <div class="crm_img">
@@ -68,7 +68,7 @@
       <div class="type_2">
         <p class="crm_title">推荐一起购买</p>
         <el-row :gutter="0">
-          <el-col :span="6" v-for="item in correlationgoods" :key="item.id">
+          <el-col :span="6" v-for="item in correlationgoods.slice(0,4)" :key="item.id">
             <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
               <div class="card">
                 <div class="crm_img">
@@ -97,8 +97,8 @@ export default {
     }
   },
   created() {
-    this.load(),
-        this.search()
+      this.load(),
+      this.search()
   },
   methods:{
     goBack(){
@@ -125,9 +125,9 @@ export default {
       })
     },
     flushCom:function(){
-
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
       this.$router.go(0);
-
     }
   }
 }
@@ -137,7 +137,7 @@ export default {
   .clear_float {
     clear: both;
   }
-  .background {
+  #background {
     height: 640px;
   }
   .show_goods {

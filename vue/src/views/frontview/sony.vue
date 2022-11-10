@@ -41,10 +41,26 @@ export default {
 
 <style scoped>
 .card {
-  height: 200px;
+  height: 180px;
   width: 216px;
   box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.08);
   margin-bottom:15px;
+  position: relative;
+  overflow: hidden;
+}
+.card:before {
+  padding: 50px 0 5px 0;
+  background-color: #0070d1;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.55rem;
+  text-align: center;
+  letter-spacing: 0.1em;
+  content: "PS";
+  display: block;
+  position: absolute;
+  width: 79px;
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 .card:hover {
   box-shadow: 0 16px 32px 0 rgba(48, 55, 66, 0.3);/* 鼠标悬浮时盒子出现的阴影 */
@@ -59,8 +75,5 @@ export default {
   padding: 10px 25px;
   font-weight: 520;
   font-size: 1rem;
-}
-a {
-  text-decoration: none;
 }
 </style>

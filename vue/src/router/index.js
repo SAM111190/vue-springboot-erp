@@ -16,15 +16,10 @@ const routes = [
         component: () =>import('../views/back/Home')
       },
       {
-        path: '/mrp',
-        name: 'Mrp',
-        component: () =>import('../views/back/user')
-      },
-      {
-        path: '/debts',
-        name: 'Debts',
+        path: '/goods',
+        name: 'Goods',
         component: () =>import('../views/back/goods')
-      }
+      },
     ]
   },
   {

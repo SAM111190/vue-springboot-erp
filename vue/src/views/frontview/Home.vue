@@ -5,7 +5,25 @@
             <img :src="item" alt="" style="width: 720px;height: 260px">
           </el-carousel-item>
         </el-carousel>
+      <div class="hotsold">
+        <p class="hot_title">畅销商品</p>
+        <el-row :gutter="0">
+          <el-col :span="4" v-for="item in hotgoods.slice(0,6)" :key="item.id" v-if="item.type === 1" style="margin-top: 10px">
+            <router-link :to="{path:'/goods_details',query:{index: item.id}}">
+              <div style="overflow: hidden;">
+                <div class="card" >
+                  <div class="img">
+                    <img width="216" height="121" :src="item.imgUrl">
+                  </div>
+                  <div class="title">{{item.name}}</div>
+                </div>
+              </div>
+            </router-link>
+          </el-col>
+        </el-row>
+      </div>
       <div class="nav">
+        <p class="hot_title">所有商品</p>
         <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
@@ -39,6 +57,7 @@
 <script>
 import nintendo from "@/views/frontview/nintendo";
 import sony from "@/views/frontview/sony";
+import request from "@/utils/request";
 export default {
   name: "home",
   components:{
@@ -48,6 +67,7 @@ export default {
   data() {
     return {
       activeIndex:'1',
+      hotgoods:[],
       imgs: [
        'https://www.nintendo.tw/top/img/switch_pokemon_sv_l.jpg',
         'https://www.nintendo.tw/top/img/switch_splatoon3_l.jpg',
@@ -55,10 +75,19 @@ export default {
       ],
     }
   },
+  created() {
+    this.gethot()
+  },
   methods: {
     handleSelect(key) {
       this.activeIndex = key;
-    }
+    },
+    gethot()
+    {
+      request.get("/goods/hot").then(res =>{
+        this.hotgoods = res;
+      })
+    },
   }
 }
 </script>
@@ -66,6 +95,12 @@ export default {
 <style scoped>
   .main {
     margin-top: 20px;
+  }
+  .hotsold {
+    border-radius: 4px;
+    padding: 10px 0px 0px 10px;
+    margin: 0 auto;
+    width: 1400px;
   }
   .nav {
     width: 1400px;
@@ -86,5 +121,48 @@ export default {
   .goods {
     width: 1400px;
     margin: 15px auto;
+  }
+  .card {
+    height: 180px;
+    width: 216px;
+    box-shadow: -1px 0px 10px 3px rgba(0, 0, 0, 0.08);
+    margin-bottom:15px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:before {
+    padding: 2px 0 2px 0 ;
+    background-color: #e60012;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.55rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+    content: "HOT";
+    display: block;
+    position: absolute;
+    width: 100%;
+  }
+  .card:hover {
+    box-shadow: 0 16px 32px 0 rgba(48, 55, 66, 0.3);/* 鼠标悬浮时盒子出现的阴影 */
+    transform: translate(0, -5px);/* 鼠标悬浮时盒子上移10px */
+    cursor: pointer;
+  }
+  .title:hover{
+    color:#e60012;
+  }
+  .title {
+    color: #484848;
+    padding: 10px 25px;
+    font-weight: 520;
+    font-size: 1rem;
+  }
+  .hot_title {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #484848;
+    margin-bottom: 10px;
+    margin-top: 10px;
   }
 </style>
