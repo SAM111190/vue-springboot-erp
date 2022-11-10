@@ -223,7 +223,8 @@ export default {
     padding: 10px 20px 10px 20px;
   }
   .crm {
-    margin:60px 200px 20px 200px;
+    margin:60px  auto 20px auto;
+    width: 1200px;
   }
   .el-button--danger,
   .el-button--danger:focus,
