@@ -159,15 +159,15 @@ import org.springframework.web.bind.annotation.RestController;
         Iterator<Goods> iterator = otherGoods.iterator();
         while (iterator.hasNext()) {
             Goods thisGood = iterator.next();
-            //Integer GoodOrderNum = orderMapper.findNumByID(thisGood.getId());
-            Float twoGoodSupport = (float) orderMapper.findNumByTwoId(id, thisGood.getId()) / (float) allOrderNum;
-            //Float GoodSupport = (float) GoodOrderNum / (float) allOrderNum;
-            //Float interest = twoGoodSupport / (thisSupport * GoodSupport);
+            Integer GoodOrderNum = orderMapper.findNumByID(thisGood.getId());
+            Float GoodSupport = (float) GoodOrderNum / (float) allOrderNum;
+            if(GoodSupport > 0.3) {
+                Float twoGoodSupport = (float) orderMapper.findNumByTwoId(id, thisGood.getId()) / (float) allOrderNum;
+                Float certificate = twoGoodSupport / thisSupport;
 
-            Float certificate = twoGoodSupport / thisSupport;
-
-            if (certificate > 0.5) {
-                result.add(thisGood);
+                if (certificate > 0.5) {
+                    result.add(thisGood);
+                }
             }
         }
 
@@ -209,6 +209,33 @@ import org.springframework.web.bind.annotation.RestController;
 //        }
 //        return resultList;
 //    }
+
+    @GetMapping("/correlationInterest/{id}")
+    public List<Goods> correlationInterest(@PathVariable Integer id) {//兴趣度算法
+        Integer thisOrderNum = orderMapper.findNumByID(id);
+        Integer allOrderNum = orderMapper.findAllOrderNum();
+        Float thisSupport = (float) thisOrderNum / (float) allOrderNum;
+
+        List<Goods> otherGoods = goodsMapper.findOtherGoods(id);
+        List<Goods> result = new LinkedList<>();
+
+        Iterator<Goods> iterator = otherGoods.iterator();
+        while (iterator.hasNext()) {
+            Goods thisGood = iterator.next();
+            Integer GoodOrderNum = orderMapper.findNumByID(thisGood.getId());
+            Float GoodSupport = (float) GoodOrderNum / (float) allOrderNum;
+            if(GoodSupport > 0.3){
+                Float twoGoodSupport = (float) orderMapper.findNumByTwoId(id, thisGood.getId()) / (float) allOrderNum;
+                Float interest = twoGoodSupport / (thisSupport * GoodSupport);
+
+                if (interest > 1) {
+                    result.add(thisGood);
+                }
+            }
+        }
+
+        return result;
+    }
 
 }
 
