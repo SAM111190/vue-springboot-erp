@@ -51,7 +51,7 @@
     </section>
     <section class="crm">
       <div class="type_1">
-        <p class="crm_title">猜你喜欢</p>
+        <p class="crm_title">类似商品</p>
         <el-row :gutter="0">
           <el-col :span="6" v-for="item in adjgoods.slice(0,4)" :key="item.id">
             <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
@@ -80,6 +80,21 @@
           </el-col>
         </el-row>
       </div>
+      <div class="type_3">
+        <p class="crm_title">猜你喜欢</p>
+        <el-row :gutter="0">
+          <el-col :span="6" v-for="item in correlationInterest.slice(0,4)" :key="item.id">
+            <router-link :to="{path:'/goods_details',query:{index: item.id}}" @click.native="flushCom">
+              <div class="card">
+                <div class="crm_img">
+                  <img width="260" height="146" :src="item.imgUrl">
+                </div>
+                <div class="title">{{item.name}}</div>
+              </div>
+            </router-link>
+          </el-col>
+        </el-row>
+      </div>
     </section>
   </div>
 </template>
@@ -91,9 +106,10 @@ export default {
   data() {
     return {
       color:'background-color:',//背景颜色
-      goods:[],
-      adjgoods:[],
-      correlationgoods:[],
+      goods:[],//展示商品
+      adjgoods:[],//类似商品
+      correlationgoods:[],//推荐一起购买
+      correlationInterest:[],//猜你喜欢商品
     }
   },
   created() {
@@ -122,6 +138,10 @@ export default {
       request.get("/goods/correlation/"+this.id,{
       }).then(res=>{
         this.correlationgoods = res
+      })
+      request.get("/goods/correlationInterest/"+this.id,{
+      }).then(res=>{
+        this.correlationInterest = res
       })
     },
     flushCom:function(){
