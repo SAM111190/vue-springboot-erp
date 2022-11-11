@@ -26,6 +26,9 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     Integer selectTotal();
 
-    @Select("select * from goods where id != #{id}")
-    List<Goods> findOtherGoods(Integer id);
+    @Select("select type from goods where id = #{id}")
+    Integer findType(Integer id);
+
+    @Select("select * from goods where id != #{id} and type = #{type}")
+    List<Goods> findOtherGoods(Integer id, Integer type);
 }

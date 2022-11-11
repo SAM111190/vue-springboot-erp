@@ -23,8 +23,9 @@ public interface OrderMapper extends BaseMapper<Order> {
     @Select("select count(DISTINCT user_id) from `order` where game_id = #{id}")
     Integer findNumByID(Integer id);
 
-    @Select("select count(DISTINCT user_id) from `order`")
-    Integer findAllOrderNum();
+    @Select("select count(DISTINCT user_id) from `order`\n" +
+            "where game_id in (select id from goods where type = #{type})")
+    Integer findAllOrderNum(Integer type);
 
     Integer findNumByTwoId(Integer id1, Integer id2);
 }

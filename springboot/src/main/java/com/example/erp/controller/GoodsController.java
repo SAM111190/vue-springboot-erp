@@ -149,11 +149,12 @@ import org.springframework.web.bind.annotation.RestController;
     //关联查询
     @GetMapping("/correlation/{id}")
     public List<Goods> correlation(@PathVariable Integer id) {
+        Integer type = goodsMapper.findType(id);
         Integer thisOrderNum = orderMapper.findNumByID(id);
-        Integer allOrderNum = orderMapper.findAllOrderNum();
+        Integer allOrderNum = orderMapper.findAllOrderNum(type);
         Float thisSupport = (float) thisOrderNum / (float) allOrderNum;
 
-        List<Goods> otherGoods = goodsMapper.findOtherGoods(id);
+        List<Goods> otherGoods = goodsMapper.findOtherGoods(id, type);
         List<Goods> result = new LinkedList<>();
 
         Iterator<Goods> iterator = otherGoods.iterator();
@@ -212,11 +213,12 @@ import org.springframework.web.bind.annotation.RestController;
 
     @GetMapping("/correlationInterest/{id}")
     public List<Goods> correlationInterest(@PathVariable Integer id) {//兴趣度算法
+        Integer type = goodsMapper.findType(id);
         Integer thisOrderNum = orderMapper.findNumByID(id);
-        Integer allOrderNum = orderMapper.findAllOrderNum();
+        Integer allOrderNum = orderMapper.findAllOrderNum(type);
         Float thisSupport = (float) thisOrderNum / (float) allOrderNum;
 
-        List<Goods> otherGoods = goodsMapper.findOtherGoods(id);
+        List<Goods> otherGoods = goodsMapper.findOtherGoods(id, type);
         List<Goods> result = new LinkedList<>();
 
         Iterator<Goods> iterator = otherGoods.iterator();
