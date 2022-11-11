@@ -8,7 +8,7 @@
       <div class="hotsold">
         <p class="hot_title">畅销商品</p>
         <el-row :gutter="0">
-          <el-col :span="4" v-for="item in hotgoods.slice(0,6)" :key="item.id" v-if="item.type === 1" style="margin-top: 10px">
+          <el-col :span="4" v-for="item in hotgoods.slice(0,6)" :key="item.id"  style="margin-top: 10px">
             <router-link :to="{path:'/goods_details',query:{index: item.id}}">
               <div style="overflow: hidden;">
                 <div class="card" >
@@ -50,6 +50,7 @@
       <div class="goods">
           <nintendo v-if="activeIndex === '1'"></nintendo>
           <sony v-if="activeIndex === '2'"></sony>
+        <microsoft v-if="activeIndex === '3'"></microsoft>
       </div>
     </div>
 </template>
@@ -57,12 +58,14 @@
 <script>
 import nintendo from "@/views/frontview/nintendo";
 import sony from "@/views/frontview/sony";
+import microsoft from "@/views/frontview/microsoft";
 import request from "@/utils/request";
 export default {
   name: "home",
   components:{
     nintendo,
     sony,
+    microsoft
   },
   data() {
     return {

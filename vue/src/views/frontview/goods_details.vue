@@ -10,7 +10,7 @@
           <p class="fac">{{goods.fac}}</p>
           <p class="sold">已售:{{goods.sold}}份</p>
           <p class="name">{{goods.name}}</p>
-          <p class="price">￥{{goods.price}}</p>
+          <p class="price">￥{{goods.price}} / {{goods.unit}}</p>
           <p class="delivery"><i class="el-icon-truck" style="margin-right: 5px"></i>下单后48小时之内发货，到达上海预计3天</p>
           <el-button class="buy" type="danger" icon="el-icon-shopping-cart-2">购买</el-button>
         </div>
